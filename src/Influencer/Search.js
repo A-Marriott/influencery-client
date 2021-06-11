@@ -5,6 +5,7 @@ import styled from "styled-components";
 const InfluencerSearch = () => {
   const [influencers, setInfluencers] = useState(null);
   const [searchString, setSearchString] = useState("");
+  const [filteredInfluencers, setFilteredInfluencers] = useState(null);
   // const [platformString, setPlatformString] = useState("all");
 
   useEffect(() => {
@@ -19,7 +20,19 @@ const InfluencerSearch = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => setInfluencers(data));
+      .then((data) => {
+        setInfluencers(data)
+        setFilteredInfluencers(data)
+      })
+
+  const updateInfluencers = (e) => {
+    setSearchString(e.target.value.toLowerCase())
+    setFilteredInfluencers(influencers.filter((influencer) => {
+      return influencer.handle.search(searchString) !== -1 ||
+      influencer.platform.name.search(searchString) !== -1 ||
+      influencer.tags.some(tag => tag.name.search(searchString) !== -1);
+    }))
+  };
 
   return (
     <div>
@@ -28,7 +41,7 @@ const InfluencerSearch = () => {
           placeholder="Enter influencer handle, platform, or tag"
           type="text"
           value={searchString}
-          onChange={(e) => setSearchString(e.target.value)}
+          onChange={updateInfluencers}
         />
         {/* <SelectInput
           value={platformString}
@@ -47,7 +60,7 @@ const InfluencerSearch = () => {
       <SearchContainer>
         {!influencers && <Loader />}
         <div>
-          {influencers?.map((inf, i) => (
+          {filteredInfluencers?.map((inf, i) => (
             <InfluencerCard influencer={inf} key={"inf_card_" + i} />
           ))}
         </div>
