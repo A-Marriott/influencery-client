@@ -5,8 +5,7 @@ import styled from "styled-components";
 const InfluencerSearch = () => {
   const [influencers, setInfluencers] = useState(null);
   const [searchString, setSearchString] = useState("");
-  const [filteredInfluencers, setFilteredInfluencers] = useState(null);
-  // const [platformString, setPlatformString] = useState("all");
+  const [platformString, setPlatformString] = useState("all");
 
   useEffect(() => {
     getInfluencers();
@@ -20,21 +19,23 @@ const InfluencerSearch = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => {
-        setInfluencers(data)
-        setFilteredInfluencers(data)
-      })
+      .then((data) => setInfluencers(data))
 
+  const searchFilter = (influencers) => {
+    return influencers?.filter((influencer) => {
+      return influencer.handle.search(searchString) !== -1 ||
+      influencer.platform.name.search(searchString) !== -1 ||
+      influencer.tags.some(tag => tag.name.search(searchString) !== -1)
+    });
+  }
 
-  const updateInfluencers = (e) => {
-    const query = e.target.value.toLowerCase()
-    setSearchString(query)
-    setFilteredInfluencers(influencers.filter((influencer) => {
-      return influencer.handle.search(query) !== -1 ||
-      influencer.platform.name.search(query) !== -1 ||
-      influencer.tags.some(tag => tag.name.search(query) !== -1);
-    }))
-  };
+  const platformFilter = (influencers) => {
+    return influencers?.filter((influencer) => {
+      return influencer.platform.name === platformString || platformString === "all"
+    });
+  }
+
+  const filteredInfluencers = platformFilter(searchFilter(influencers))
 
   return (
     <div>
@@ -43,9 +44,9 @@ const InfluencerSearch = () => {
           placeholder="Enter influencer handle, platform, or tag"
           type="text"
           value={searchString}
-          onChange={updateInfluencers}
+          onChange={(e) => setSearchString(e.target.value.toLowerCase())}
         />
-        {/* <SelectInput
+        <SelectInput
           value={platformString}
           onChange={(e) => setPlatformString(e.target.value)}
           name="platforms"
@@ -57,7 +58,7 @@ const InfluencerSearch = () => {
           <option value="facebook">Facebook</option>
           <option value="tiktok">Tik-Tok</option>
           <option value="youtube">Youtube</option>
-        </SelectInput> */}
+        </SelectInput>
       </SearchInputContainer>
       <SearchContainer>
         {!influencers && <Loader />}
