@@ -25,6 +25,8 @@ const InfluencerCard = ({ influencer }) => {
             <Tag key={"inf_tag_key" + influencer.id + tag.id}>{tag.name}</Tag>
           ))}
         </TagContainer>
+        <FieldTitle>Followers</FieldTitle>
+        <CardFields>{influencer?.followers}</CardFields>
       </ContentContainer>
       <PlatformImage src={getImage(influencer?.platform?.name)?.default} />
     </Card>
@@ -38,7 +40,7 @@ const Card = styled.div`
   width: 200px;
   display: inline-block;
   position: relative;
-  height: 330px;
+  height: 350px;
   overflow: hidden;
 `;
 

@@ -6,6 +6,7 @@ const InfluencerSearch = () => {
   const [influencers, setInfluencers] = useState(null);
   const [searchString, setSearchString] = useState("");
   const [platformString, setPlatformString] = useState("all");
+  const [followerOrder, setFollowerOrder] = useState("followers");
 
   useEffect(() => {
     getInfluencers();
@@ -35,7 +36,16 @@ const InfluencerSearch = () => {
     });
   }
 
-  const filteredInfluencers = platformFilter(searchFilter(influencers))
+  const followerFilter = (influencers) => {
+    if (followerOrder === "high to low") {
+      return influencers?.sort((a, b) => b.followers - a.followers);
+    } else if (followerOrder === "low to high") {
+      return influencers?.sort((a, b) => a.followers - b.followers);
+    }
+    return influencers
+  }
+
+  const filteredInfluencers = followerFilter(platformFilter(searchFilter(influencers)))
 
   return (
     <div>
@@ -58,6 +68,16 @@ const InfluencerSearch = () => {
           <option value="facebook">Facebook</option>
           <option value="tiktok">Tik-Tok</option>
           <option value="youtube">Youtube</option>
+        </SelectInput>
+        <SelectInput
+          value={followerOrder}
+          onChange={(e) => setFollowerOrder(e.target.value)}
+          name="followers"
+          id="followers"
+        >
+          <option value="followers">Followers</option>
+          <option value="high to low">High to low</option>
+          <option value="low to high">Low to high</option>
         </SelectInput>
       </SearchInputContainer>
       <SearchContainer>
