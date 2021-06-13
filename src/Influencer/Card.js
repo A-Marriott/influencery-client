@@ -7,11 +7,13 @@ const InfluencerCard = ({ influencer }) => {
   return (
     <Card>
       <ProfileContainer>
+      <InfluencerLink influencer={influencer}>
         <ProfilePic
           src={influencer?.profile_pic_url}
           alt="Profile Pic"
           onError={errorDefaultSrc}
         />
+      </InfluencerLink >
         <Followers>{influencer?.followers}</Followers>
       </ProfileContainer>
       <ContentContainer>
@@ -97,5 +99,10 @@ const Tag = styled.div`
 `;
 
 const TagContainer = styled.div``;
+
+const InfluencerLink = (props) => {
+  const platformLink = 'https://' + props.influencer.platform.name + '.com/' + props.influencer.handle
+  return <a href={platformLink}>{props.children}</a>
+}
 
 export default InfluencerCard;
