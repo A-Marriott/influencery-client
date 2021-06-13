@@ -25,12 +25,14 @@ const InfluencerSearch = () => {
         setFilteredInfluencers(data)
       })
 
+
   const updateInfluencers = (e) => {
-    setSearchString(e.target.value.toLowerCase())
+    const query = e.target.value.toLowerCase()
+    setSearchString(query)
     setFilteredInfluencers(influencers.filter((influencer) => {
-      return influencer.handle.search(searchString) !== -1 ||
-      influencer.platform.name.search(searchString) !== -1 ||
-      influencer.tags.some(tag => tag.name.search(searchString) !== -1);
+      return influencer.handle.search(query) !== -1 ||
+      influencer.platform.name.search(query) !== -1 ||
+      influencer.tags.some(tag => tag.name.search(query) !== -1);
     }))
   };
 
