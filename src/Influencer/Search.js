@@ -22,11 +22,15 @@ const InfluencerSearch = () => {
       .then((response) => response.json())
       .then((data) => setInfluencers(data))
 
+// Need to be able to type additional letter, forget letter, incorrect letter, allow flexibility
+
   const searchFilter = (influencers) => {
     return influencers?.filter((influencer) => {
-      return influencer.handle.search(searchString) !== -1 ||
-      influencer.platform.name.search(searchString) !== -1 ||
-      influencer.tags.some(tag => tag.name.search(searchString) !== -1)
+      return searchString.split(/\s/).every((string) => {
+        return influencer.handle.includes(string) ||
+        influencer.platform.name.includes(string) ||
+        influencer.tags.some(tag => tag.name.includes(string))
+      })
     });
   }
 
