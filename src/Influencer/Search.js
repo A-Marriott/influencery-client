@@ -7,6 +7,9 @@ const InfluencerSearch = () => {
   const [searchString, setSearchString] = useState("");
   const [platformString, setPlatformString] = useState("all");
   const [followerOrder, setFollowerOrder] = useState("followers");
+  // const [searchFilter, setSearchFilter] = useState([]);
+  // const [platformFilter, setPlatformFilter] = useState([]);
+
 
   useEffect(() => {
     getInfluencers();
@@ -21,6 +24,9 @@ const InfluencerSearch = () => {
     })
       .then((response) => response.json())
       .then((data) => setInfluencers(data))
+      // setSearchFilter(data)
+      // setPlatformFilter(data)
+
 
 // Need to be able to type additional letter, forget letter, incorrect letter, allow flexibility
 
@@ -34,11 +40,35 @@ const InfluencerSearch = () => {
     });
   }
 
+  // const updateSearch = ((e) => {
+  //   setSearchString(e.target.value.toLowerCase())
+  //   setSearchFilter((influencers) => {
+  //   console.log(influencers)
+  //     return influencers?.filter((influencer) => {
+  //       return searchString.split(/\s/).every((string) => {
+  //         return influencer.handle.includes(string) ||
+  //         influencer.platform.name.includes(string) ||
+  //         influencer.tags.some(tag => tag.name.includes(string))
+  //       })
+  //     });
+  //   });
+  //   console.log(influencers)
+  // });
+
   const platformFilter = (influencers) => {
     return influencers?.filter((influencer) => {
       return influencer.platform.name === platformString || platformString === "all"
     });
   }
+
+  // const updatePlatform = ((e) => {
+  //   setPlatformString(e.target.value)
+  //   setPlatformFilter((influencers) => {
+  //     return influencers?.filter((influencer) => {
+  //       return influencer.platform.name === platformString || platformString === "all"
+  //     });
+  //   })
+  // })
 
   const followerFilter = (influencers) => {
     if (followerOrder === "high to low") {
@@ -50,6 +80,10 @@ const InfluencerSearch = () => {
   }
 
   const filteredInfluencers = followerFilter(platformFilter(searchFilter(influencers)))
+
+  // const filteredInfluencers = searchFilter.filter((influencer) => {
+  //   return platformFilter.includes(influencer)
+  // })
 
   return (
     <div>
