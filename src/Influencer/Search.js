@@ -30,7 +30,20 @@ const InfluencerSearch = () => {
 
 // Need to be able to type additional letter, forget letter, incorrect letter, allow flexibility
 
-  const searchFilter = (influencers) => {
+  // const searchFilter = (influencers) => {
+  //   return influencers?.filter((influencer) => {
+  //     return searchString.split(/\s/).every((string) => {
+  //       const stringArray = string.split('').map(char => '.?' + char)
+  //       stringArray.push('.?')
+  //       const stringRegex = new RegExp(stringArray.join(''))
+  //       return influencer.handle.match(stringRegex) ||
+  //       influencer.platform.name.match(stringRegex) ||
+  //       influencer.tags.some(tag => tag.name.match(stringRegex))
+  //     })
+  //   });
+  // }
+
+    const searchFilter = (influencers) => {
     return influencers?.filter((influencer) => {
       return searchString.split(/\s/).every((string) => {
         return influencer.handle.includes(string) ||
