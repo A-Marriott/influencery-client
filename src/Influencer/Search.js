@@ -32,23 +32,23 @@ const InfluencerSearch = () => {
 
   // const searchFilter = (influencers) => {
   //   return influencers?.filter((influencer) => {
-  //     return searchString.split(/\s/).every((string) => {
-  //       const stringArray = string.split('').map(char => '.?' + char)
-  //       stringArray.push('.?')
-  //       const stringRegex = new RegExp(stringArray.join(''))
-  //       return influencer.handle.match(stringRegex) ||
-  //       influencer.platform.name.match(stringRegex) ||
-  //       influencer.tags.some(tag => tag.name.match(stringRegex))
+  //     return searchString.split(/\s/).every((word) => {
+  //       const wordArray = word.split('').map(char => '.?' + char)
+  //       wordArray.push('.?')
+  //       const wordRegex = new RegExp(wordArray.join(''))
+  //       return influencer.handle.match(wordRegex) ||
+  //       influencer.platform.name.match(wordRegex) ||
+  //       influencer.tags.some(tag => tag.name.match(wordRegex))
   //     })
   //   });
   // }
 
     const searchFilter = (influencers) => {
     return influencers?.filter((influencer) => {
-      return searchString.split(/\s/).every((string) => {
-        return influencer.handle.includes(string) ||
-        influencer.platform.name.includes(string) ||
-        influencer.tags.some(tag => tag.name.includes(string))
+      return searchString.split(/\s/).every((word) => {
+        return influencer.handle.includes(word) ||
+        influencer.platform.name.includes(word) ||
+        influencer.tags.some(tag => tag.name.includes(word))
       })
     });
   }
